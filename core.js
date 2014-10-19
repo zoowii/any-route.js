@@ -86,6 +86,7 @@ function reMatchesInGlobal(re, source) {
  */
 function makeRoute(route) {
     var routeParams = getRouteParams(route);
+    var sourceRoute = route;
     route = reEscape(route);
     route = route.replace(/(:[a-zA-Z_][a-zA-Z_0-9]*)/g, "([^" + defaultSep + "]+)");
     route = route.replace(/(:\\\*[a-zA-Z_][a-zA-Z_0-9]*)/g, "(.+)");
@@ -102,7 +103,10 @@ function makeRoute(route) {
             }
             return result;
         } else {
-            return [];
+            if (routeParams.length < 1) {
+                return sourceRoute === source ? [] : null;
+            }
+            return null;
         }
     }
 }
@@ -213,7 +217,13 @@ function routeTableMatch(routeTable, source) {
             return routeTableMatch(route.routes, source);
         } else {
             var routeFn = route.routeFn;
+            if (!routeFn) {
+                return null;
+            }
             var routeBinding = routeFn(source);
+            if (!routeBinding) {
+                return null;
+            }
             return _.extend({}, route, {
                 binding: routeBinding
             });

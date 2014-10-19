@@ -130,3 +130,5 @@ exports.ANY = ANY;
 exports.httpRoute = httpRoute;
 exports.reverseInHttpRouteTable = reverseInHttpRouteTable;
 exports.findRouteInHttpRouteTable = findRouteInHttpRouteTable;
+exports.defroutes = core.defroutes;
+exports.context = core.context;
