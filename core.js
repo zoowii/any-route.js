@@ -103,8 +103,8 @@ function makeRoute(route) {
             }
             return result;
         } else {
-            if (routeParams.length < 1) {
-                return sourceRoute === source ? [] : null;
+            if (routeParams.length < 1 && sourceRoute === source) {
+                return [];
             }
             return null;
         }
@@ -176,7 +176,7 @@ function contextRoute(ctx, routes) {
  * @returns {boolean}
  */
 function isContextRoute(route) {
-    return route.context ? true : false;
+    return route.context !== null && route.context !== undefined && route.context !== false;
 }
 
 /**
